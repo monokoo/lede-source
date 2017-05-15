@@ -101,6 +101,25 @@ define Build/Compile
 	+$(MAKE_VARS) $(MAKE) $(PKG_JOBS) -C $(PKG_BUILD_DIR) $(MAKE_FLAGS)
 endef
 
+define Package/ip-full/postinst
+#!/bin/sh
+if [ -z "$${IPKG_INSTROOT}" ]; then
+	if [ -f "/usr/sbin/ip" ]; then
+		rm -f /usr/sbin/ip
+	fi
+	if [ -f "/usr/bin/ip" ]; then
+		rm -f /usr/bin/ip
+	fi
+	if [ -f "/sbin/ip-full" ]; then
+		ln -s /sbin/ip-full /usr/sbin/ip
+		ln -s /sbin/ip-full /usr/bin/ip
+	else
+		ln -s /sbin/ip /usr/sbin/ip
+		ln -s /sbin/ip /usr/bin/ip
+	fi
+fi
+endef
+
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include
 	$(CP) $(PKG_BUILD_DIR)/include/{libgenl,libnetlink,ll_map}.h $(1)/usr/include/
@@ -116,6 +135,10 @@ endef
 define Package/ip-full/install
 	$(INSTALL_DIR) $(1)/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/sbin/ip-full
+	$(INSTALL_DIR) $(1)/usr/sbin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/usr/sbin/ip
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/usr/bin/ip
 endef
 
 define Package/tc/install

@@ -91,7 +91,7 @@ generate_network() {
 		static)
 			local ipad
 			case "$1" in
-				lan) ipad=${ipaddr:-"192.168.1.1"} ;;
+				lan) ipad=${ipaddr:-"192.168.4.1"} ;;
 				*) ipad=${ipaddr:-"192.168.$((addr_offset++)).1"} ;;
 			esac
 
@@ -126,6 +126,7 @@ generate_network() {
 				set network.$1.proto='pppoe'
 				set network.$1.username='username'
 				set network.$1.password='password'
+				set network.$1.metric='20'
 				set network.$1.ipv6='auto'
 				delete network.${1}6
 				set network.${1}6='interface'
@@ -227,7 +228,8 @@ generate_static_system() {
 		delete system.@system[0]
 		add system system
 		set system.@system[-1].hostname='LEDE'
-		set system.@system[-1].timezone='UTC'
+		set system.@system[-1].timezone='CST-8'
+		set system.@system[-1].zonename='Asia/Shanghai'
 		set system.@system[-1].ttylogin='0'
 		set system.@system[-1].log_size='64'
 		set system.@system[-1].urandom_seed='0'
