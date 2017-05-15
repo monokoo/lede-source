@@ -1,12 +1,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=k3screenctrl
-PKG_VERSION:=0.10
+PKG_VERSION:=0.11
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_URL:=https://github.com/updateing/k3screenctrl.git
-PKG_SOURCE_VERSION:=dd05ce9a5cb0cb6cebfc6b3b5823c7f6d75796ff
+PKG_SOURCE_URL:=https://github.com/monokoo/k3screenctrl.git
+PKG_SOURCE_VERSION:=fdd1cae26692079efa6d30ff79a799bf8005d4e9
 PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_SOURCE_VERSION)
 PKG_SOURCE:=$(PKG_SOURCE_SUBDIR).tar.xz
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_SOURCE_SUBDIR)
