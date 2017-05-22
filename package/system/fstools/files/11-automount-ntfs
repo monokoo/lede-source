@@ -11,20 +11,20 @@ auto_mount(){
 		}
 
 		[ -z "$mountpoint" ] && {
-			mount -t ntfs  /dev/$device $mountpath -o rw,noatime,big_writes,iocharset=utf8
+			mount -t ntfs $device $mountpath -o rw,noatime,big_writes,iocharset=utf8
 		}
 	else
 		[ -z "$mountpoint" ] && {
 			case "$my_fstype" in
 				ext*)
-					mount -o noatime /dev/$device $mountpath
+					mount -o noatime $device $mountpath
 				;;
 				'exfat')
-					mount -o noatime /dev/$device $mountpath
+					mount -o noatime $device $mountpath
 				;;
 				'vfat')
 					uci set fstab.${section}.options="iocharset=utf8,umask=0000,dmask=0000,fmask=0000"
-					mount -o iocharset=utf8,umask=0000,dmask=0000,fmask=0000 dev/$device $mountpath
+					mount -o iocharset=utf8,umask=0000,dmask=0000,fmask=0000 $device $mountpath
 				;;
 				*)
 					logger -t Auto-Mount "New block.File system:${my_fstype} is not supported, please mount it manually."
@@ -34,25 +34,26 @@ auto_mount(){
 	fi
 }
 
-mountpoint=`sed -ne "s|^[^ ]*/sd[a-z] ||; T; s/ .*//p" /proc/self/mounts`
+
 mountpath="/mnt/shares"
 
 case "$ACTION" in
 	add)
-		devices="`ls /dev/sd[a-z]`"
+		devices="`ls /dev/sd*`"
 		for device in $devices
 		do
+			mountpoint=`cat /proc/self/mounts | grep "$device" |awk -F ' ' '{print $2}'`
 			my_fstype="`block info | grep "$device" | awk -F 'TYPE="' '{print $2}' | sed 's/\"//'`"
 			[ -n "$my_fstype" ] && {
 				logger -t Auto-Mount "New block.File system:${my_fstype}"
 				[ ! -d "$mountpath" ] && mkdir -p $mountpath
 				auto_mount
 			}
-			judge_ifmount=`sed -ne "s|^[^ ]*/sd[a-z] ||; T; s/ .*//p" /proc/self/mounts`
+			judge_ifmount=`cat /proc/self/mounts | grep "$device" |awk -F ' ' '{print $2}'`
 			if [ -z "$judge_ifmount" ]; then
-				logger -t Auto-Mount "New block.File system:${my_fstype} has mounted failed."
+				logger -t Auto-Mount "New block.File system:${my_fstype} mounted failed."
 			else
-				logger -t Auto-Mount "New ${my_fstype} disk has been mounted to \"/mnt/${mountpath}\""
+				logger -t Auto-Mount "New ${my_fstype} disk has been mounted to $mountpath ."
 			fi
 		done
 	;;
