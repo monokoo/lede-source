@@ -49,6 +49,7 @@ case "$ACTION" in
 				[ ! -d "$mountpath" ] && mkdir -p $mountpath
 				auto_mount
 			}
+			sleep 2
 			judge_ifmount=`cat /proc/self/mounts | grep "$device" |awk -F ' ' '{print $2}'`
 			if [ -z "$judge_ifmount" ]; then
 				logger -t Auto-Mount "New block.File system:${my_fstype} mounted failed."
