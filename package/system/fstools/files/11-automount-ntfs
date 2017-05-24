@@ -3,12 +3,14 @@
 auto_mount(){
 	if [ "$my_fstype" = 'ntfs' ]; then
 		[ ! -d "/mnt/$device" ] && mkdir -p /mnt/$device
+		chmod 777 /mnt/$device
 		[ -z "$mountpoint" ] && {
 			mount -t ntfs /dev/$device /mnt/$device -o rw,noatime,big_writes,iocharset=utf8
 		}
 	else
 		[ -z "$mountpoint" ] && {
 			[ ! -d "/mnt/$device" ] && mkdir -p /mnt/$device
+			chmod 777 /mnt/$device
 			case "$my_fstype" in
 				ext*)
 					mount -o noatime /dev/$device /mnt/$device
