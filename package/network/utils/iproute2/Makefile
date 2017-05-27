@@ -118,6 +118,7 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 		ln -s /sbin/ip /usr/bin/ip
 	fi
 fi
+exit 0
 endef
 
 define Build/InstallDev
@@ -136,9 +137,9 @@ define Package/ip-full/install
 	$(INSTALL_DIR) $(1)/sbin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/sbin/ip-full
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/usr/sbin/ip
+	$(LN) ../../sbin/ip-full $(1)/usr/sbin/ip
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/usr/bin/ip
+	$(LN) ../../sbin/ip-full $(1)/usr/bin/ip
 endef
 
 define Package/tc/install

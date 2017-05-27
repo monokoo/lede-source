@@ -12,9 +12,9 @@ PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL=$(LEDE_GIT)/project/fstools.git
-PKG_SOURCE_DATE:=2017-03-29
-PKG_SOURCE_VERSION:=20c16fc5fec00fdae547f083a822a7f1bd67d143
-PKG_MIRROR_HASH:=fc6402291119744843b8482d3f02d5e819b92afe52f261fa30ed8bd26f4a62f1
+PKG_SOURCE_DATE:=2017-05-09
+PKG_SOURCE_VERSION:=c43ae11e71abf607a1998800f8ced489ec5d1e88
+PKG_MIRROR_HASH:=f305bfc6f2aed6f13e59581969d9da7cdf76a823f7e1fe3f1dfdc221788374dd
 CMAKE_INSTALL:=1
 
 PKG_LICENSE:=GPL-2.0
@@ -94,6 +94,7 @@ define Package/block-mount/install
 	$(INSTALL_BIN) ./files/fstab.init $(1)/etc/init.d/fstab
 	$(INSTALL_DATA) ./files/fstab.default $(1)/etc/uci-defaults/10-fstab
 	$(INSTALL_DATA) ./files/mount.hotplug $(1)/etc/hotplug.d/block/10-mount
+	$(INSTALL_DATA) ./files/11-automount-ntfs $(1)/etc/hotplug.d/block/11-automount-ntfs
 
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/sbin/block $(1)/sbin/
 	$(INSTALL_DATA) $(PKG_INSTALL_DIR)/usr/lib/libblkid-tiny.so $(1)/lib/

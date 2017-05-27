@@ -109,6 +109,7 @@ enum ath79_mach_type {
 	ATH79_MACH_GL_MIFI,			/* GL-MIFI support */
 	ATH79_MACH_GS_MINIBOX_V1,		/* Gainstrong MiniBox V1.0 */
 	ATH79_MACH_GS_OOLITE,			/* GS OOLITE V1.0 */
+	ATH79_MACH_HIVEAP_121,			/* Aerohive HiveAP-121*/
 	ATH79_MACH_HIWIFI_HC6361,		/* HiWiFi HC6361 */
 	ATH79_MACH_HORNET_UB,			/* ALFA Networks Hornet-UB */
 	ATH79_MACH_JA76PF,			/* jjPlus JA76PF */
@@ -155,6 +156,7 @@ enum ath79_mach_type {
 	ATH79_MACH_QIHOO_C301,			/* Qihoo 360 C301 */
 	ATH79_MACH_R602N,			/* P&W R602N */
 	ATH79_MACH_R6100,			/* NETGEAR R6100 */
+	ATH79_MACH_RAMBUTAN,			/* 8devices Rambutan */
 	ATH79_MACH_RB_2011G,			/* Mikrotik RouterBOARD 2011UAS-2HnD */
 	ATH79_MACH_RB_2011L,			/* Mikrotik RouterBOARD 2011L */
 	ATH79_MACH_RB_2011R5,			/* Mikrotik RouterBOARD 2011UiAS(-2Hnd) */
@@ -211,6 +213,7 @@ enum ath79_mach_type {
 	ATH79_MACH_TL_MR3220_V2,		/* TP-LINK TL-MR3220 v2 */
 	ATH79_MACH_TL_MR3420,			/* TP-LINK TL-MR3420 */
 	ATH79_MACH_TL_MR3420_V2,		/* TP-LINK TL-MR3420 v2 */
+	ATH79_MACH_TL_MR6400,			/* TP-LINK TL-MR6400 */
 	ATH79_MACH_TL_WA701ND_V2,		/* TP-LINK TL-WA701ND v2 */
 	ATH79_MACH_TL_WA7210N_V2,		/* TP-LINK TL-WA7210N v2 */
 	ATH79_MACH_TL_WA750RE,			/* TP-LINK TL-WA750RE */
@@ -274,7 +277,7 @@ enum ath79_mach_type {
 	ATH79_MACH_UBNT_RSPRO,			/* Ubiquiti RouterStation Pro */
 	ATH79_MACH_UBNT_UAP_PRO,		/* Ubiquiti UniFi AP Pro */
 	ATH79_MACH_UBNT_UNIFI,			/* Ubiquiti Unifi */
-	ATH79_MACH_UBNT_UNIFIAC_LITE,		/* Ubiquiti Unifi AC LITE/LR */
+	ATH79_MACH_UBNT_UNIFIAC_LITE,		/* Ubiquiti Unifi AC LITE/LR/MESH */
 	ATH79_MACH_UBNT_UNIFIAC_PRO,		/* Ubiquiti Unifi AC PRO */
 	ATH79_MACH_UBNT_UNIFI_OUTDOOR,		/* Ubiquiti UnifiAP Outdoor */
 	ATH79_MACH_UBNT_UNIFI_OUTDOOR_PLUS,	/* Ubiquiti UnifiAP Outdoor+ */

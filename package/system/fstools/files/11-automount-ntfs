@@ -1,0 +1,60 @@
+#!/bin/sh
+
+auto_mount(){
+	if [ "$my_fstype" = 'ntfs' ]; then
+		[ ! -d "/mnt/$device" ] && mkdir -p /mnt/$device
+		chmod 777 /mnt/$device
+		[ -z "$mountpoint" ] && {
+			mount -t ntfs /dev/$device /mnt/$device -o rw,noatime,big_writes,iocharset=utf8
+		}
+	else
+		[ -z "$mountpoint" ] && {
+			[ ! -d "/mnt/$device" ] && mkdir -p /mnt/$device
+			chmod 777 /mnt/$device
+			case "$my_fstype" in
+				ext*)
+					mount -o noatime /dev/$device /mnt/$device
+				;;
+				'exfat')
+					mount -o noatime /dev/$device /mnt/$device
+				;;
+				'vfat')
+					mount -o iocharset=utf8,umask=0000,dmask=0000,fmask=0000 /dev/$device /mnt/$device
+				;;
+				*)
+					logger -t Auto-Mount "New block.File system:${my_fstype} is not supported, please mount it manually."
+				;;
+			esac
+		}
+	fi
+}
+
+countdev=$(ls /dev/sd*|wc -l)
+if [ "$countdev" -gt 1 ]; then
+	devices=$(ls /dev/ |grep -w sd[a-z][1-9])
+else
+	devices=$(ls /dev/ |grep -w sd[a-z])
+fi
+case "$ACTION" in
+	add)
+		for device in $devices
+		do	
+			mountpoint=$(cat /proc/self/mounts | grep -w "/dev/$device" |awk -F ' ' '{print $2}')
+			[ -n "$mountpoint" ] && exit 0
+			my_fstype=$(block info | grep -w "/dev/$device" | awk -F 'TYPE="' '{print $2}' | sed 's/\"//')
+			[ -z "$mountpoint" ] && {
+				[ -n "$my_fstype" ] && {
+					logger -t Auto-Mount "New block.File system:${my_fstype}"
+					auto_mount
+				}
+			}
+			sleep 2
+			judge_ifmount=$(cat /proc/self/mounts | grep -w "/dev/$device" |awk -F ' ' '{print $2}')
+			if [ -z "$judge_ifmount" ]; then
+				logger -t Auto-Mount "New block.File system:${my_fstype} mounted failed."
+			else
+				logger -t Auto-Mount "New ${my_fstype} disk has been mounted to /mnt/$device ."
+			fi
+		done
+	;;
+esac		
