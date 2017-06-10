@@ -3,23 +3,24 @@
 auto_mount(){
 	if [ "$my_fstype" = 'ntfs' ]; then
 		[ ! -d "/mnt/$device" ] && mkdir -p /mnt/$device
-		chmod 777 /mnt/$device
 		[ -z "$mountpoint" ] && {
-			mount -t ntfs /dev/$device /mnt/$device -o rw,noatime,big_writes,iocharset=utf8
+			ntfs-3g -o rw,noatime,big_writes,nls=utf8,umask=0000,dmask=0000,fmask=0000 /dev/$device /mnt/$device
 		}
 	else
 		[ -z "$mountpoint" ] && {
 			[ ! -d "/mnt/$device" ] && mkdir -p /mnt/$device
-			chmod 777 /mnt/$device
 			case "$my_fstype" in
 				ext*)
-					mount -o noatime /dev/$device /mnt/$device
+					mount -t $my_fstype -o rw,noatime /dev/$device /mnt/$device
 				;;
 				'exfat')
-					mount -o noatime /dev/$device /mnt/$device
+					mount -o noatime,nls=utf8,umask=0000,dmask=0000,fmask=0000 /dev/$device /mnt/$device
 				;;
 				'vfat')
-					mount -o iocharset=utf8,umask=0000,dmask=0000,fmask=0000 /dev/$device /mnt/$device
+					mount -t $my_fstype -o rw,noatime,umask=0000,dmask=0000,fmask=0000 /dev/$device /mnt/$device
+				;;
+				'cifs')
+					mount -t $my_fstype -o nounix,noserverino,iocharset=utf8,umask=0000,dmask=0000,fmask=0000 /dev/$device /mnt/$device
 				;;
 				*)
 					logger -t Auto-Mount "New block.File system:${my_fstype} is not supported, please mount it manually."
@@ -35,6 +36,7 @@ if [ "$countdev" -gt 1 ]; then
 else
 	devices=$(ls /dev/ |grep -w sd[a-z])
 fi
+sleep 2
 case "$ACTION" in
 	add)
 		for device in $devices
