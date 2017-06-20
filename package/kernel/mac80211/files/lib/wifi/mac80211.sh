@@ -78,7 +78,7 @@ detect_mac80211() {
 
 		mode_band="g"
 		channel="11"
-		htmode=""
+		htmode="HT20"
 		ht_capab=""
 
 		iw phy "$dev" info | grep -q 'Capabilities:' && htmode=HT20
@@ -88,7 +88,7 @@ detect_mac80211() {
 		cap_5ghz=$(iw phy "$dev" info | grep -c "Band 2")
 		[ "$vht_cap" -gt 0 -a "$cap_5ghz" -gt 0 ] && {
 			mode_band="a";
-			channel="36"
+			channel="149"
 			htmode="VHT80"
 		}
 
@@ -114,6 +114,8 @@ detect_mac80211() {
 			set wireless.radio${devidx}.type=mac80211
 			set wireless.radio${devidx}.channel=${channel}
 			set wireless.radio${devidx}.hwmode=11${mode_band}
+			set wireless.radio${devidx}.country=US
+			set wireless.radio${devidx}.txpower=20
 			${dev_id}
 			${ht_capab}
 			set wireless.radio${devidx}.disabled=0
