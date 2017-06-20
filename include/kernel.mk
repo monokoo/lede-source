@@ -10,6 +10,12 @@ CHECK:=1
 DUMP:=1
 endif
 
+ifneq ($(SOURCE_DATE_EPOCH),)
+  ifndef DUMP
+    KBUILD_BUILD_TIMESTAMP:=$(shell perl -e 'print scalar gmtime($(SOURCE_DATE_EPOCH))')
+  endif
+endif
+
 ifeq ($(__target_inc),)
   ifndef CHECK
     include $(INCLUDE_DIR)/target.mk
@@ -102,11 +108,10 @@ KERNEL_MAKE_FLAGS := \
 	CONFIG_SHELL="$(BASH)" \
 	$(if $(findstring c,$(OPENWRT_VERBOSE)),V=1,V='') \
 	$(if $(PKG_BUILD_ID),LDFLAGS_MODULE=--build-id=0x$(PKG_BUILD_ID)) \
-	KERNELRELEASE=$(LINUX_VERSION) \
 	cmd_syscalls=
 
 ifeq ($(call qstrip,$(CONFIG_EXTERNAL_KERNEL_TREE))$(call qstrip,$(CONFIG_KERNEL_GIT_CLONE_URI)),)
-  KERNEL_MAKEOPTS += \
+  KERNEL_MAKE_FLAGS += \
 	KERNELRELEASE=$(LINUX_VERSION)
 endif
 
