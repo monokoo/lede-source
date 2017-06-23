@@ -42,7 +42,7 @@ case "$ACTION" in
 		for device in $devices
 		do	
 			mountpoint=$(cat /proc/self/mounts | grep -w "/dev/$device" |awk -F ' ' '{print $2}')
-			[ -n "$mountpoint" ] && exit 0
+			[ -n "$mountpoint" ] && continue
 			my_fstype=$(block info | grep -w "/dev/$device" | awk -F 'TYPE="' '{print $2}' | sed 's/\"//')
 			[ -z "$mountpoint" ] && {
 				[ -n "$my_fstype" ] && {
