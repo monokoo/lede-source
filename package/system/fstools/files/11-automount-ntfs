@@ -2,25 +2,25 @@
 
 auto_mount(){
 	if [ "$my_fstype" = 'ntfs' ]; then
-		[ ! -d "/mnt/$device" ] && mkdir -p /mnt/$device
+		[ ! -d "/tmp/mnt/$device" ] && mkdir -p /tmp/mnt/$device
 		[ -z "$mountpoint" ] && {
-			ntfs-3g -o rw,noatime,big_writes,nls=utf8,umask=0000,dmask=0000,fmask=0000 /dev/$device /mnt/$device
+			ntfs-3g -o rw,noatime,big_writes,nls=utf8,umask=0000,dmask=0000,fmask=0000 /dev/$device /tmp/mnt/$device
 		}
 	else
 		[ -z "$mountpoint" ] && {
-			[ ! -d "/mnt/$device" ] && mkdir -p /mnt/$device
+			[ ! -d "/tmp/mnt/$device" ] && mkdir -p /tmp/mnt/$device
 			case "$my_fstype" in
 				ext*)
-					mount -t $my_fstype -o rw,noatime /dev/$device /mnt/$device
+					mount -t $my_fstype -o rw,noatime /dev/$device /tmp/mnt/$device
 				;;
 				'exfat')
-					mount -o rw,noatime,iocharset=cp936,umask=0000,dmask=0000,fmask=0000 /dev/$device /mnt/$device
+					mount -o rw,noatime,iocharset=cp936,umask=0000,dmask=0000,fmask=0000 /dev/$device /tmp/mnt/$device
 				;;
 				vfat|msdos)
-					mount -t $my_fstype -o rw,noatime,umask=0000,dmask=0000,fmask=0000 /dev/$device /mnt/$device
+					mount -t $my_fstype -o rw,noatime,umask=0000,dmask=0000,fmask=0000 /dev/$device /tmp/mnt/$device
 				;;
 				'cifs')
-					mount -t $my_fstype -o nounix,noserverino,iocharset=utf8,umask=0000,dmask=0000,fmask=0000 /dev/$device /mnt/$device
+					mount -t $my_fstype -o nounix,noserverino,iocharset=utf8,umask=0000,dmask=0000,fmask=0000 /dev/$device /tmp/mnt/$device
 				;;
 				*)
 					logger -t Auto-Mount "New block.File system:${my_fstype} is not supported, please mount it manually."
@@ -55,7 +55,7 @@ case "$ACTION" in
 			if [ -z "$judge_ifmount" ]; then
 				logger -t Auto-Mount "New block.File system:${my_fstype} mounted failed."
 			else
-				logger -t Auto-Mount "New ${my_fstype} disk has been mounted to /mnt/$device ."
+				logger -t Auto-Mount "New ${my_fstype} disk has been mounted to /tmp/mnt/$device ."
 			fi
 		done
 	;;
