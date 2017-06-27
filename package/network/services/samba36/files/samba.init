@@ -75,6 +75,7 @@ smb_add_share() {
 	config_get create_mask $1 create_mask
 	config_get dir_mask $1 dir_mask
 	config_get browseable $1 browseable
+	config_get sharepasswd $1 sharepasswd
 
 	[ -z "$name" -o -z "$path" ] && return
 
@@ -85,6 +86,20 @@ smb_add_share() {
 	[ -n "$create_mask" ] && echo -e "\tcreate mask = $create_mask" >> /var/etc/smb.conf
 	[ -n "$dir_mask" ] && echo -e "\tdirectory mask = $dir_mask" >> /var/etc/smb.conf
 	[ -n "$browseable" ] && echo -e "\tbrowseable = $browseable" >> /var/etc/smb.conf
+	if [ -n "$sharepasswd" ]; then
+		if [ -n "$users" ] && [ "$users" = "root" ]; then
+			sed -i 's/invalid users = root/#invalid users = root/' /var/etc/smb.conf
+			(echo $sharepasswd;echo $sharepasswd) | smbpasswd -as root
+		else
+			[ -n "$(cat /etc/samba/smbpasswd | grep root)" ] && smbpasswd -x root
+			[ -n "$(cat /etc/samba/smb.conf |grep "#invalid users = root")" ] && \
+				sed -i 's/#invalid users = root/invalid users = root/' /var/etc/smb.conf
+		fi
+	else
+		[ -n "$(cat /etc/samba/smbpasswd | grep root)" ] && smbpasswd -x root
+		[ -n "$(cat /etc/samba/smb.conf |grep "#invalid users = root")" ] && \
+				sed -i 's/#invalid users = root/invalid users = root/' /var/etc/smb.conf
+	fi
 }
 
 init_config() {
