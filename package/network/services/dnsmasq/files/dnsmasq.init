@@ -1047,10 +1047,12 @@ boot()
 	start "$@"
 }
 
-add_ptohosts()
+add_ptohost()
 {
-	[ -n "$(cat /etc/hosts |grep "p.to")" ] && sed -i '/p.to/d' /etc/hosts
-	echo "$(uci get network.lan.ipaddr) p.to" >>/etc/hosts
+    [ -n "$(cat /etc/hosts |grep "p.to")" ] && sed -i '/p.to/d' /etc/hosts
+    lanip=`ifconfig br-lan |grep -w "inet addr"| awk '{print $2}'|awk -F':' '{print $2}'`
+    [ -z "$lanip" ] && lanip=`uci get network.lan.ipaddr 2>/dev/null`
+    [ -n "$lanip" ] && echo "$lanip p.to" >>/etc/hosts
 }
 
 start_service() {
@@ -1080,7 +1082,7 @@ start_service() {
 		config_foreach dnsmasq_start dnsmasq
 	fi
 
-	add_ptohosts
+	add_ptohost
 }
 
 reload_service() {
