@@ -1054,6 +1054,7 @@ add_ptohost()
     [ -z "$lanip" ] && lanip=`uci get network.lan.ipaddr 2>/dev/null`
     [ -n "$lanip" ] && echo "$lanip p.to" >>/etc/hosts
 	[ -z `cat /etc/hosts |grep "127.0.0.1 localhost"` ] && echo "127.0.0.1 localhost" >>/etc/hosts
+	chmod 664 /etc/hosts
 }
 
 start_service() {
