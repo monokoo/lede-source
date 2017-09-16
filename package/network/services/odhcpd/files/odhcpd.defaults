@@ -2,6 +2,21 @@
 uci -q get dhcp.odhcpd && exit 0
 touch /etc/config/dhcp
 
+. /usr/share/libubox/jshn.sh
+
+json_load "$(cat /etc/board.json)"
+json_select network
+json_select lan
+json_get_vars protocol
+json_select ..
+json_select ..
+
+case "$protocol" in
+# only enable server mode on statically addressed lan ports
+"static") MODE=server ;;
+*) MODE=disabled ;;
+esac
+
 uci batch <<EOF
 set dhcp.odhcpd=odhcpd
 set dhcp.odhcpd.maindhcp=0
@@ -10,5 +25,5 @@ set dhcp.odhcpd.leasetrigger=/usr/sbin/odhcpd-update
 set dhcp.odhcpd.loglevel=4
 commit dhcp
 EOF
-#set dhcp.lan.dhcpv6=server
-#set dhcp.lan.ra=server
+#set dhcp.lan.dhcpv6=$MODE
+#set dhcp.lan.ra=$MODE
