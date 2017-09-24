@@ -227,6 +227,12 @@ hostapd_set_bss_options() {
 	set_default acct_port 1813
 
 	append bss_conf "ctrl_interface=/var/run/hostapd"
+	if [ "$ifname" == "wlan1" ]; then
+		isolate=$(uci -q get wireless.default_radio1.isolate)
+	else
+		isolate=$(uci -q get wireless.default_radio0.isolate)
+	fi
+	[ -z "$isolate" ] && isolate=0
 	if [ "$isolate" -gt 0 ]; then
 		append bss_conf "ap_isolate=$isolate" "$N"
 	fi
@@ -762,7 +768,7 @@ wpa_supplicant_run() {
 
 	_wpa_supplicant_common "$ifname"
 
-	/usr/sbin/wpa_supplicant -B -s \
+	/usr/sbin/wpa_supplicant -B \
 		${network_bridge:+-b $network_bridge} \
 		-P "/var/run/wpa_supplicant-${ifname}.pid" \
 		-D ${_w_driver:-wext} \
