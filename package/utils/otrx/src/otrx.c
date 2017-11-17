@@ -228,14 +228,11 @@ out:
  * Create
  **************************************************/
 
-static void otrx_create_parse_options(int argc, char **argv) {
-}
-
 static ssize_t otrx_create_append_file(FILE *trx, const char *in_path) {
 	FILE *in;
 	size_t bytes;
 	ssize_t length = 0;
-	uint8_t buf[128];
+	uint8_t buf[1024];
 
 	in = fopen(in_path, "r");
 	if (!in) {
@@ -267,8 +264,11 @@ static ssize_t otrx_create_append_zeros(FILE *trx, size_t length) {
 
 	if (fwrite(buf, 1, length, trx) != length) {
 		fprintf(stderr, "Couldn't write %zu B to %s\n", length, trx_path);
+		free(buf);
 		return -EIO;
 	}
+
+	free(buf);
 
 	return length;
 }
@@ -333,9 +333,6 @@ static int otrx_create(int argc, char **argv) {
 		goto out;
 	}
 	trx_path = argv[2];
-
-	optind = 3;
-	otrx_create_parse_options(argc, argv);
 
 	trx = fopen(trx_path, "w+");
 	if (!trx) {
