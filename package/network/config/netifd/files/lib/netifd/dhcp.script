@@ -53,7 +53,7 @@ setup_interface () {
 	proto_send_update "$INTERFACE"
 
 	[ -f "/usr/bin/serverchan_trigger" ] && {
-		IF_PROTO=`uci -q get network.$INTERFACE.ifname`
+		IF_PROTO=`uci -q get network.$INTERFACE.proto`
 		[ -n "$IF_PROTO" ] && [ "$IF_PROTO" = "dhcp" ] && {
 			IFNAME=`uci -q get network.$INTERFACE.ifname`
 			/usr/bin/serverchan_trigger iface ifup "$INTERFACE" "$IFNAME"
