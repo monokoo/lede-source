@@ -63,6 +63,7 @@ define Host/Compile
 	$(call cc,mkbrncmdline)
 	$(call cc,mkbrnimg)
 	$(call cc,mkdapimg)
+	$(call cc,mkdapimg2)
 	$(call cc, mkcameofw, -Wall)
 	$(call cc,seama md5)
 	$(call cc,oseama md5, -Wall)
@@ -81,6 +82,8 @@ define Host/Compile
 	$(call cc,mkbuffaloimg, -Wall)
 	$(call cc,zyimage, -Wall)
 	$(call cc,mkdhpimg buffalo-lib, -Wall)
+	$(call cc,mkdlinkfw mkdlinkfw-lib, -lz -Wall --std=gnu99)
+	$(call cc,dns313-header, -Wall)
 endef
 
 define Host/Install
