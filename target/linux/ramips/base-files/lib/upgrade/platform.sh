@@ -62,7 +62,7 @@ platform_check_image() {
 	firewrt|\
 	fonera20n|\
 	freestation5|\
-	gb-pc1|\
+	gnubee,gb-pc1|\
 	gnubee,gb-pc2|\
 	gl-mt300a|\
 	gl-mt300n|\
@@ -75,6 +75,7 @@ platform_check_image() {
 	hpm|\
 	ht-tm02|\
 	hw550-3g|\
+	iodata,wn-gx300gr|\
 	ip2202|\
 	jhr-n805r|\
 	jhr-n825r|\
