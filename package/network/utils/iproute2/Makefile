@@ -9,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=iproute2
 PKG_VERSION:=4.18.0
-PKG_RELEASE:=4
+PKG_RELEASE:=5
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.xz
 PKG_SOURCE_URL:=@KERNEL/linux/utils/net/iproute2
@@ -37,7 +37,7 @@ $(call Package/iproute2/Default)
  TITLE:=Routing control utility (Minimal)
  VARIANT:=tiny
  PROVIDES:=ip
- ALTERNATIVES:=200:/sbin/ip:/sbin/ip-tiny
+ ALTERNATIVES:=200:/sbin/ip:/usr/libexec/ip-tiny
  DEPENDS:=+libnl-tiny +(PACKAGE_devlink||PACKAGE_rdma):libmnl
 endef
 
@@ -46,7 +46,7 @@ $(call Package/iproute2/Default)
  TITLE:=Routing control utility (Full)
  VARIANT:=full
  PROVIDES:=ip
- ALTERNATIVES:=300:/sbin/ip:/sbin/ip-full
+ ALTERNATIVES:=300:/sbin/ip:/usr/libexec/ip-full
  DEPENDS:=+libnl-tiny +(PACKAGE_devlink||PACKAGE_rdma):libmnl
 endef
 
@@ -139,12 +139,10 @@ if [ -z "$${IPKG_INSTROOT}" ]; then
 	if [ -f "/usr/bin/ip" ]; then
 		rm -f /usr/bin/ip
 	fi
-	if [ -f "/sbin/ip-full" ]; then
-		ln -s /sbin/ip-full /usr/sbin/ip
-		ln -s /sbin/ip-full /usr/bin/ip
+	if [ -f "/usr/libexec/ip-full" ]; then
+		ln -s /usr/libexec/ip-full /usr/sbin/ip
 	else
 		ln -s /sbin/ip /usr/sbin/ip
-		ln -s /sbin/ip /usr/bin/ip
 	fi
 fi
 exit 0
@@ -158,17 +156,15 @@ define Build/InstallDev
 endef
 
 define Package/ip-tiny/install
-	$(INSTALL_DIR) $(1)/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/sbin/ip-tiny
+	$(INSTALL_DIR) $(1)/usr/libexec
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/usr/libexec/ip-tiny
 endef
 
 define Package/ip-full/install
-	$(INSTALL_DIR) $(1)/sbin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/sbin/ip-full
+	$(INSTALL_DIR) $(1)/usr/libexec
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/usr/libexec/ip-full
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(LN) ../../sbin/ip-full $(1)/usr/sbin/ip
-	$(INSTALL_DIR) $(1)/usr/bin
-	$(LN) ../../sbin/ip-full $(1)/usr/bin/ip
+	$(LN) $(1)/usr/libexec/ip-full $(1)/usr/sbin/ip
 endef
 
 define Package/tc/install
