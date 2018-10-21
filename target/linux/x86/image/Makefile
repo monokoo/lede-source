@@ -286,10 +286,10 @@ ifneq ($(CONFIG_QCOW2_IMAGES),)
 endif
 
 define Image/Build/gzip
+	gzip -f9n $(BIN_DIR)/$(IMG_PREFIX)-rootfs-$(1).img
 ifneq ($(CONFIG_GRUB_IMAGES),)
 	gzip -f9n $(BIN_DIR)/$(IMG_PREFIX)-combined-$(1).img
 endif
-	gzip -f9n $(BIN_DIR)/$(IMG_PREFIX)-rootfs-$(1).img
 ifneq ($(CONFIG_EFI_IMAGES),)
 	gzip -f9n $(BIN_DIR)/$(IMG_PREFIX)-uefi-gpt-$(1).img
 endif
