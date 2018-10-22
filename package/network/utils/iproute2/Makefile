@@ -164,7 +164,7 @@ define Package/ip-full/install
 	$(INSTALL_DIR) $(1)/usr/libexec
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/usr/libexec/ip-full
 	$(INSTALL_DIR) $(1)/usr/sbin
-	$(LN) $(1)/usr/libexec/ip-full $(1)/usr/sbin/ip
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ip/ip $(1)/usr/sbin/ip
 endef
 
 define Package/tc/install
