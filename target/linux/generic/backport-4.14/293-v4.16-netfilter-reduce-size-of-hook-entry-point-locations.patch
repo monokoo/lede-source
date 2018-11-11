@@ -98,7 +98,7 @@ diff --git a/net/bridge/br_netfilter_hooks.c b/net/bridge/br_netfilter_hooks.c
 index c2eea1b8737a..27f1d4f2114a 100644
 --- a/net/bridge/br_netfilter_hooks.c
 +++ b/net/bridge/br_netfilter_hooks.c
-@@ -991,7 +991,7 @@ int br_nf_hook_thresh(unsigned int hook, struct net *net,
+@@ -992,7 +992,7 @@ int br_nf_hook_thresh(unsigned int hook,
  	unsigned int i;
  	int ret;
  
