@@ -151,6 +151,7 @@ platform_check_image() {
 	rut5xx|\
 	sap-g3200u3|\
 	sk-wb8|\
+	skw92a|\
 	sl-r7205|\
 	tama,w06|\
 	tew-638apb-v2|\
@@ -185,6 +186,8 @@ platform_check_image() {
 	widora,neo-32m|\
 	mqmaker,witi-256m|\
 	mqmaker,witi-512m|\
+	wap2100-sk|\
+	we1026-5g-16m|\
 	wizfi630a|\
 	wl-330n|\
 	wl-330n3g|\
@@ -216,7 +219,6 @@ platform_check_image() {
 	y1|\
 	y1s|\
 	youhua,wr1200js|\
-	we1026-5g-16m|\
 	zbt-ape522ii|\
 	zbt-cpe102|\
 	zbt-wa05|\

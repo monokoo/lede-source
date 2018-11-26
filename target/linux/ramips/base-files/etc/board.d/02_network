@@ -200,7 +200,6 @@ ramips_setup_interfaces()
 	awm002-evb-8M|\
 	c20i|\
 	dir-645|\
-	f5d8235-v2|\
 	gl-mt300a|\
 	gl-mt300n|\
 	gl-mt750|\
@@ -224,6 +223,7 @@ ramips_setup_interfaces()
 	ubnt-erx|\
 	ubnt-erx-sfp|\
 	ur-326n4g|\
+	wap2100-sk|\
 	wrtnode|\
 	wrtnode2p | \
 	wrtnode2r | \
@@ -345,6 +345,10 @@ ramips_setup_interfaces()
 		ucidef_add_switch "switch0" \
 			"0:lan" "1:lan" "2:lan" "3:lan" "4:wan" "8@eth0"
 		;;
+	skw92a)
+		ucidef_add_switch "switch0" \
+			"1:lan" "2:lan" "3:lan" "4:lan" "0:wan" "6@eth0"
+		;;
 	tew-638apb-v2)
 		ucidef_add_switch "switch0" \
 			"4:lan" "6@eth0"
@@ -371,6 +375,7 @@ ramips_setup_interfaces()
 			"0:lan" "2:lan" "6t@eth0"
 		;;
 	f5d8235-v1|\
+	f5d8235-v2|\
 	tew-714tru|\
 	v11st-fe|\
 	wzr-agl300nh)
@@ -553,6 +558,10 @@ ramips_setup_macs()
 		lan_mac=$(cat /sys/class/net/eth0/address)
 		lan_mac=$(macaddr_setbit_la "$lan_mac")
 		wan_mac=$(mtd_get_mac_binary factory 32772)
+		;;
+	skw92a)
+		lan_mac=$(mtd_get_mac_binary factory 40)
+		wan_mac=$(mtd_get_mac_binary factory 46)
 		;;
 	tew-691gr)
 		wan_mac=$(macaddr_add "$(mtd_get_mac_binary factory 4)" 3)
