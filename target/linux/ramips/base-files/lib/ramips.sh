@@ -472,9 +472,6 @@ ramips_board_detect() {
 	*"SAP-G3200U3")
 		name="sap-g3200u3"
 		;;
-	*"SKW92A")
-		name="skw92a"
-		;;
 	*"SL-R7205"*)
 		name="sl-r7205"
 		;;
@@ -504,9 +501,6 @@ ramips_board_detect() {
 		;;
 	*"U25AWF-H1")
 		name="u25awf-h1"
-		;;
-	*"U7621-06 (256M RAM/16M flash)")
-		name="u7621-06-256M-16M"
 		;;
 	*"U7628-01 (128M RAM/16M flash)")
 		name="u7628-01-128M-16M"
@@ -555,9 +549,6 @@ ramips_board_detect() {
 		;;
 	*"W502U")
 		name="w502u"
-		;;
-	*"WAP2100-SK")
-		name="wap2100-sk"
 		;;
 	*"WCR-1166DS")
 		name="wcr-1166ds"
