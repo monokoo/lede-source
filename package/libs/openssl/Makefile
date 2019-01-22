@@ -113,7 +113,7 @@ $(call Package/openssl/Default)
   SUBMENU:=SSL
   DEPENDS:=+OPENSSL_WITH_COMPRESSION:zlib
   TITLE+= (libraries)
-  ABI_VERSION:=$(PKG_VERSION)
+  ABI_VERSION:=1.0.0
   MENU:=1
 endef
 
